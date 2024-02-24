@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header/Header';
 
 import { AppStyled } from './App.styled';
@@ -14,57 +14,17 @@ export const App = () => {
   return (
     <AppStyled>
       <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<p>Loading...</p>}>
-              <Home />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/movies"
-          element={
-            <Suspense fallback={<p>Loading...</p>}>
-              <Movies />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/movies/:movieId"
-          element={
-            <Suspense fallback={<p>Loading...</p>}>
-              <MovieDetails />
-            </Suspense>
-          }
-        >
-          <Route
-            path="cast"
-            element={
-              <Suspense fallback={<p>Loading...</p>}>
-                <Cast />
-              </Suspense>
-            }
-          />
-          <Route
-            path="reviews"
-            element={
-              <Suspense fallback={<p>Loading...</p>}>
-                <Reviews />
-              </Suspense>
-            }
-          />
-        </Route>
-        <Route
-          path="*"
-          element={
-            <Suspense fallback={<p>Loading...</p>}>
-              <Home />
-            </Suspense>
-          }
-        />
-      </Routes>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Suspense>
     </AppStyled>
   );
 };
